@@ -1,0 +1,44 @@
+#!/usr/bin/env tcsh
+
+set datadir=/Users/kellymartin/Desktop/Perinatal_Stroke/AFNI_analysis_10.2018
+set group=Controls
+#set subj=SP_Ch047
+set subjdir=$datadir/${group}
+set task=PROSODY
+set task2=PROSODY2
+set taskfiles = prosodyfull
+set subj=`ls $subjdir`
+
+foreach subject ( $subj )                                           
+
+afni_proc.py -subj_id ${subject}                                   \
+          -copy_anat $datadir/${group}/${subject}/ANAT/*.BRIK      \
+          -dsets $datadir/${group}/${subject}/${task}/*.BRIK $datadir/${group}/${subject}/${task2}/*.BRIK      \
+          -blocks tshift align tlrc volreg blur mask scale regress \
+          -tcat_remove_first_trs 2                                 \
+          -align_opts_aea -cost lpc+ZZ                             \
+          -tlrc_base MNI152_T1_2009c+tlrc                          \
+          -volreg_align_to MIN_OUTLIER                             \
+          -volreg_align_e2a                                        \
+          -volreg_tlrc_warp                                        \
+          -regress_stim_times $datadir/${taskfiles}*.txt           \
+          -regress_stim_labels CTRL EMOT INSTR REST                \
+          -regress_censor_motion 0.3                               \
+          -regress_basis_multi                                     \
+              'BLOCK(24,1)'                                        \
+              'BLOCK(24,1)'                                        \
+              'BLOCK(3,1)'                                         \
+              'BLOCK(9,1)'                                         \
+          -regress_reml_exec                                       \
+          -regress_est_blur_errts                                  \
+          -regress_opts_3dD                                	   \
+              -gltsym 'SYM: CTRL -REST'                   	   \
+              -glt_label 1 CTRL-REST                      	   \
+    	      -gltsym 'SYM: EMOT -REST'                	           \
+    	      -glt_label 2 EMOT-REST                	           \
+    	      -gltsym 'SYM: EMOT -CTRL'     	                   \
+   	      -glt_label 3 EMOT-CTRL	                           \
+              -gltsym 'SYM: CTRL -EMOT'                            \
+              -glt_label 4 CTRL-EMOT                                                               
+
+end

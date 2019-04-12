@@ -1,0 +1,16 @@
+#!/usr/bin/env tcsh
+
+set datadir=/Users/kellymartin/Desktop/Perinatal_Stroke/AFNI_analysis_10.2018
+set group=Controls
+set subj=SP_Ch047
+set subjdir=$datadir/${group}
+set task=PROSODY
+set task2=PROSODY2
+set taskfiles=prosodyfull
+#set subj=`ls subjdir`
+
+foreach subject ( $subj )
+
+echo DO STUFF
+
+end

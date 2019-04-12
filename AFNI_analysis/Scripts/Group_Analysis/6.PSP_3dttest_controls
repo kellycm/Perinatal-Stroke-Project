@@ -1,0 +1,24 @@
+#!/usr/bin/env tcsh
+
+set datadir=/Users/kellymartin/Desktop/Perinatal_Stroke/AFNI_analysis_10.2018
+set task=PROSODY12COMBINED
+set group=Controls_Feb2019
+#controls11-19=(SP_Ch016 SP_Ch066 SP_Ch008 SP_Ch020 SP_Ch056 SP_Ch047 SP_Ch040 SP_Ch044 SP_Ch067 SP_Ch071)
+
+3dttest++ -prefix output.ttest_N-R_allcontrols      \
+-setA controls \
+SP_A068 $datadir/$task/$group/SP_A068.results/stats.SP_A068+tlrc'[13]' \
+SP_Ch008 $datadir/$task/$group/SP_Ch008.results/stats.SP_Ch008+tlrc'[13]' \
+SP_Ch016 $datadir/$task/$group/SP_Ch016.results/stats.SP_Ch016+tlrc'[13]' \
+SP_Ch020 $datadir/$task/$group/SP_Ch020.results/stats.SP_Ch020+tlrc'[13]' \
+SP_Ch040 $datadir/$task/$group/SP_Ch040.results/stats.SP_Ch040+tlrc'[13]' \
+SP_Ch044 $datadir/$task/$group/SP_Ch044.results/stats.SP_Ch044+tlrc'[13]' \
+SP_Ch047 $datadir/$task/$group/SP_Ch047.results/stats.SP_Ch047+tlrc'[13]' \
+#SP_Ch054 $datadir/$task/$group/SP_Ch054.results/stats.SP_Ch054+tlrc'[13]' \
+SP_Ch056 $datadir/$task/$group/SP_Ch056.results/stats.SP_Ch056+tlrc'[13]' \
+#SP_Ch061 $datadir/$task/$group/SP_Ch061.results/stats.SP_Ch061+tlrc'[13]' \
+#SP_Ch064 $datadir/$task/$group/SP_Ch064.results/stats.SP_Ch064+tlrc'[13]' \
+SP_Ch066 $datadir/$task/$group/SP_Ch066.results/stats.SP_Ch066+tlrc'[13]' \
+SP_Ch067 $datadir/$task/$group/SP_Ch067.results/stats.SP_Ch067+tlrc'[13]' \
+SP_Ch071 $datadir/$task/$group/SP_Ch071.results/stats.SP_Ch071+tlrc'[13]'
+

@@ -1,0 +1,23 @@
+#!/usr/bin/env tcsh
+
+set datadir=/Users/kellymartin/Desktop/Perinatal_Stroke/AFNI_analysis_10.2018
+set group=Controls
+set subj=SP_Ch008
+set subjdir=$datadir/${group}
+set task=PROSODY12COMBINED
+#set subj=`ls $subjdir`
+
+foreach subject ( $subj )
+
+cd $datadir/$task/$group/${subject}.results
+
+#auto_warp.py -base MNI152_T1_2009c+tlrc -input anat_final.${subject}+tlrc.
+#auto_warp.py -base MNI152_T1_2009c+tlrc -input stats.${subject}+tlrc.
+
+3dAllineate -base $datadir/$task/$group/${subject}.results/awpy/anat.nii   \
+            -input stats.${subject}+tlrc.                                 \
+            -1Dmatrix_apply mat.basewarp.aff12.1D                         \
+            -mast_dxyz 3                                                  \
+            -prefix try1_stats_MNIspace
+
+end

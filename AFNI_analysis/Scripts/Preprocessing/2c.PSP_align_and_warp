@@ -1,0 +1,42 @@
+#!/usr/bin/env tcsh
+
+set datadir=/Users/kellymartin/Desktop/Perinatal_Stroke/AFNI_analysis_10.2018
+set group=Controls
+set subj=SP_Ch047
+set subjdir=$datadir/${group}
+set task=PROSODY
+set task2=PROSODY2
+set taskfiles=prosodyfull
+#set subj=`ls subjdir`
+# set list of runs
+#set runs = (`count -digits 2 1 2`)
+
+foreach subject ( $subj )
+#foreach run ( $runs )
+
+# unifize the gray matter intensity of original anat
+# 3dUnifize -prefix anatT1_U -input OutBrick_run_010+orig
+
+# skull strip original anat
+# 3dSkullStrip -input anatT1_U+orig -prefix anatT1_US -niter 400 -1d 40
+
+# perform primary alignment of original anat to MNI space
+# 3dAllineate -prefix anatT1_A -base ../MNI152_T1_2009c+tlrc \
+# -source $subj.results/OutBrick_run_002_al_junk+orig -twopass -cost lpa -1Dmatrix_save anatT1_A.aff12.1D \
+# -autoweight -fineblur 3 -cmass
+
+# nonlinear warping of MNI-aligned original anat to MNI space
+# 3dQWarp -prefix anatT1_AQ -blur 0 3 -base ../MNI152_T1_2009c+tlrc \
+# -source anatT1_A+tlrc
+
+cd $subj.results
+
+# apply transformation matrix from previous step to the func stats image
+3dNwarpApply -nwarp 'anatT1_AQ_WARP+tlrc anatT1_A.aff12.1D' \
+-source stats.$subj+orig -prefix stats.${subj}_warped \
+-master MNI152_T1_2009c+tlrc -dxyz 2
+
+cd ..
+
+end
+#end

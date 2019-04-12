@@ -1,0 +1,33 @@
+#!/usr/bin/bash
+
+export mainDir=/Users/kellymartin/Desktop
+export group=RH
+export dataDir=$mainDir/Perinatal_Stroke/$group
+export outDir=$mainDir/AFNI_analysis_10.2018/$group
+export subs=`ls $outDir`
+#export subs=SP_APp036
+export taskfile=MGH_MPRAGE_*
+export task=ANAT
+
+for subject in $subs
+
+do
+
+cd $dataDir/$subject/$taskfile
+
+echo $subject
+echo $task
+
+Dimon -infile_pattern '*.IMA' -dicom_org -use_obl_origin -gert_create_dataset -gert_outdir $outDir/$subject/$task
+
+# FOR ADT1&2 FOR LH SP_ChPp024 & SP_APp036, USE '*.dcm' INSTEAD FOR -infile_pattern.
+# FOR ANAT FOR LH SP_APp028 HAS SUBFOLDERS, RUN MGH_MPRAGE_*/MGH_MPRAGE_*
+# FOR ANAT FOR LH SP_APp036 USE '*.dcm' INSTEAD FOR -infile_pattern.
+# MAKE SURE SOURCE AND DESTINATION FOLDER NAMES MATCH (perinatalproc_setupdirs.m to fix)
+# MAKE SURE THERE ARE NO WEIRD SPACES IN THE IMAGE FILE NAMES (renamestupidlynamedfiles.m to fix)
+# MAKE SURE IMAGE FILES ARE PULLED OUT OF .ACQ FOLDERS (pullsubfiles.m to fix)
+
+done
+
+echo ALL done
+

@@ -1,0 +1,21 @@
+#!/usr/bin/env tcsh
+
+set datadir=/Users/kellymartin/Desktop/Perinatal_Stroke/AFNI_analysis_10.2018
+set group=Controls
+set subjdir=$datadir/${group}
+set task=PROSODY12COMBINED
+set subj=("SP_Ch016" "SP_Ch066" "SP_Ch008" "SP_Ch020" "SP_Ch056" "SP_Ch047" "SP_Ch040" "SP_Ch044" "SP_Ch067" "SP_Ch071")
+
+foreach subject ( $subj )
+
+cd $datadir/$task/$group/${subject}.results
+cp stats.${subject}+tlrc.* $datadir/$task/$group/betamaps
+
+end
+
+cd $datadir/$task/$group/betamaps
+
+3dTcat -prefix controlbetacat_CTRL-REST.nii.gz 'stats*+tlrc.HEAD[13]' -verb
+3dTcat -prefix controlbetacat_EMOT-REST.nii.gz 'stats*+tlrc.HEAD[16]' -verb
+3dTcat -prefix controlbetacat_EMOT-CTRL.nii.gz 'stats*+tlrc.HEAD[19]' -verb
+3dTcat -prefix controlbetacat_CTRL-EMOT.nii.gz 'stats*+tlrc.HEAD[22]' -verb

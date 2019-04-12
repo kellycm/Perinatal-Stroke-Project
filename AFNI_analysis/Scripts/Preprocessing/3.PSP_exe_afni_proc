@@ -1,0 +1,18 @@
+#!/usr/bin/env tcsh
+  
+set datadir=/Users/kellymartin/Desktop/Perinatal_Stroke/AFNI_analysis_10.2018
+set group=RH
+#set subj=SP_Ch047
+set subjdir=$datadir/${group}
+set task=PROSODY
+set taskfiles = prosody1
+set subj=`ls $subjdir`
+
+foreach subject ( $subj )
+
+tcsh -c "tcsh -xef proc.${subject} |& tee $datadir/${task}/${group}/output.proc.${subject}"
+
+end
+
+
+
